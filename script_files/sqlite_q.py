@@ -13,7 +13,7 @@ def sqlite_q1(con, db_table_name, print_flag=False):
     execute_request(con, print_flag, sql_request)
 
 def sqlite_q2(con, db_table_name, print_flag=False):
-    sql_request = (f"""SELECT passenger_count, avg(total_amount) "
+    sql_request = (f"""SELECT passenger_count, avg(total_amount)
                    FROM {db_table_name} 
                    GROUP BY 1;""")
     execute_request(con, print_flag, sql_request)
@@ -30,10 +30,12 @@ def sqlite_q3(con, db_table_name, print_flag=False):
 def sqlite_q4(con, db_table_name, print_flag=False):
     sql_request = f"""SELECT
                     passenger_count,
-                    strftime('%Y', pickup_datetime),
+                    strftime('%Y', tpep_pickup_datetime),
                     round(trip_distance),
                     count(*)
                     FROM {db_table_name}
                     GROUP BY 1, 2, 3
                     ORDER BY 2, 4 desc;"""
     execute_request(con, print_flag, sql_request)
+
+
