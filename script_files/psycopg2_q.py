@@ -1,5 +1,5 @@
 def execute_request(db_connection, print_flag, sql_request):
-    with db_connection.cursor as cursor_con:
+    with db_connection.cursor() as cursor_con:
         cursor_con.execute(sql_request)
         if print_flag:
             for i in cursor_con.fetchall():
@@ -7,8 +7,9 @@ def execute_request(db_connection, print_flag, sql_request):
     db_connection.commit()
 
 def psycopg_q1(con, db_table_name, print_flag = False):
-    sql_request = (f"""SELECT \"VendorID\", count(*) 
-                   FROM {db_table_name} "
+    sql_request = (f"""SELECT 
+                   \"VendorID\", count(*) 
+                   FROM {db_table_name}
                    GROUP BY 1;""")
     execute_request(con, print_flag, sql_request)
 
@@ -30,10 +31,10 @@ def psycopg_q3(con, db_table_name, print_flag = False):
 def psycopg_q4(con, db_table_name, print_flag = False):
     sql_request = f"""SELECT
                     passenger_count,
-                    extract(year from pickup_datetime),
+                    extract(year from tpep_pickup_datetime),
                     round(trip_distance),
                     count(*)
-                    FROM trips
+                    FROM {db_table_name}
                     GROUP BY 1, 2, 3
                     ORDER BY 2, 4 desc;"""
     execute_request(con, print_flag, sql_request)
