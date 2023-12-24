@@ -1,15 +1,12 @@
 import pandas as pd
 import psycopg2
-import os
 import sqlite3
-import duckdb
 import csv
 from script_files.getting_data import get_path, get_postgres
 
 postgres = get_postgres()
 path = get_path()
-absolute_path = os.path.abspath("../" + path)
-db_table_name = path.lstrip("data/raw/")
+db_table_name = path.lstrip("data/")
 db_table_name = db_table_name.rstrip(".csv")
 
 def to_postgres_and_sqlite():
@@ -42,11 +39,11 @@ def to_postgres_and_sqlite():
             sql_request_create_table += ");"
             sqlite_request_insert_records += "?)"
     con = psycopg2.connect(
-        database=postgres["name="],
-        user=postgres["user="],
-        password=postgres["password="],
-        host=postgres["host="],
-        port=postgres["port="]
+        database=postgres["name"],
+        user=postgres["user"],
+        password=postgres["password"],
+        host=postgres["host"],
+        port=postgres["port"]
     )
     con.autocommit = True
     print(f"Copying to PostgreSQL")
