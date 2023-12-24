@@ -1,10 +1,10 @@
 def get_path():
-    with open("script_files\lib_settings.conf", "rt", encoding="utf-8") as file:
+    with open("script_files/lib_settings.conf", "rt", encoding="utf-8") as file:
         while True:
             t = file.readline().strip()
             if "#csv" in t:
                 t_data = file.readline().strip().split()
-                if len(t_data) >= 2:
+                if len(t_data) == 2:
                     return t_data[1]
                 else:
                     return None
@@ -14,7 +14,7 @@ def get_path():
 
 def get_postgres():
     data = {"postgresql_enabled": None, "name": None, "user": None, "password": None, "host": None, "port": None}
-    with open("script_files\lib_settings.conf", "rt", encoding="utf-8") as file:
+    with open("script_files/lib_settings.conf", "rt", encoding="utf-8") as file:
         while True:
             t = file.readline().strip()
             if "#postgres" in t:
@@ -23,20 +23,20 @@ def get_postgres():
                     config = t_data[0].lower()
                     if config == "postgresql_enabled=":
                         if t_data[1] == "True":
-                            data[config] = True
+                            data[config.strip("=")] = True
                         else:
                             return None
                     else:
-                        data[config] = t_data[1]
+                        data[config.strip("=")] = t_data[1]
                 return data
 
 def get_test():
     path_to_csv = get_path()
     if path_to_csv is None:
-        print(f"Cannot proceed, scv file not found in config file")
+        print(f"Path to csv not found, cannot proceed")
         return None
     data = {"duckdb=": None, "pandas=": None, "psycopg2=": None, "sqlite=": None,}
-    with open("settings.conf", "rt", encoding="utf-8") as file:
+    with open("script_files/lib_settings.conf", "rt", encoding="utf-8") as file:
         while True:
             t = file.readline().strip()
             if "#choose libraries" in t:
@@ -55,7 +55,7 @@ def get_test():
 
 def get_settings():
     data = {"test_count=": None, "query_print=": False}
-    with open("lib_settings.conf", "rt", encoding="utf-8") as file:
+    with open("script_files/lib_settings.conf", "rt", encoding="utf-8") as file:
         while True:
             t = file.readline().strip()
             if "#Configurating" in t:
