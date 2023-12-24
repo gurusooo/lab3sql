@@ -34,7 +34,7 @@ ORDER BY 2, 4 desc;
 * Psycopg 2
 * SQLite
 # Немного о config файле
-*лежит в script_files, название - lib_settings.conf
+* лежит в script_files, название - lib_settings.conf
 * test_count - количество запусков
 * query_print - печать запросов, false по умолчанию
 * csv_file - ссылка на оригинальный csv
